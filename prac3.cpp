@@ -1,64 +1,86 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
-class Publication{
-	public:
-		string title;
-		float price;
-	
-		Publication(string title, float price) {
-			this->title = title;
-			this->price = price;
-		}
+
+class Publication {
+protected:
+    string title;
+    float price;
+
+public:
+    Publication() : title(""), price(0.0) {}
+
+    virtual void getData(const string& t, float p) {
+        title = t;
+        price = p;
+    }
+
+    virtual void display() const {
+        cout << "Title: " << title << endl;
+        cout << "Price: " << price << endl;
+    }
 };
 
 class Book : public Publication {
-	public :
-		int page_count;
-		
-		Book(string title, float price, int page_count): Publication(title, price) {
-			this->page_count = page_count;
-		}
-		
-		void print_data() {
-			cout << string(20,'-') << endl;
-			cout << "title = " << title << endl;
-			cout << "price = " << price << endl;
-			cout << "page Count = " << page_count << endl;
-			cout << string(20,'-') << endl;
-		}
-		
-			
+private:
+    int pageCount;
+
+public:
+    Book() : pageCount(0) {}
+
+    void getData(const string& t, float p, int pc) {
+        Publication::getData(t, p);
+        pageCount = pc;
+    }
+
+    void display() const override {
+        Publication::display(); // Call base class method
+        cout << "Page Count: " << pageCount << endl;
+    }
 };
 
 class Tape : public Publication {
-	public :
-		float playing_time;
-		
-		Tape(string title, float price, float playing_time): Publication(title, price) {
-			this->playing_time = playing_time;
-		}
-		
-		void print_data() {
-			cout << string(20,'-') << endl;
-			cout << "title = " << title << endl;
-			cout << "price = " << price << endl;
-			cout << "playing Time = " << playing_time << endl;
-			cout << string(20,'-') << endl;
-		}
+private:
+    float playingTime;
+
+public:
+    Tape() : playingTime(0.0) {}
+
+    void getData(const string& t, float p, float pt) {
+        Publication::getData(t, p);
+        playingTime = pt;
+    }
+
+    void display() const override {
+        Publication::display(); // Call base class method
+        cout << "Playing Time: " << playingTime << " minutes" << endl;
+    }
 };
 
-
 int main() {
-	Book b1("ATOMIC_HABIT",720,400);
-	cout << "book stuff " << endl;
-	
-	b1.print_data();
-	
-	Tape t1("MY_TAPE",32,30);
-	cout << "tape stuff " << endl;
-	
-	t1.print_data();
-	
-	return 0;
+    try {
+        Book book;
+        Tape tape;
+
+        book.getData("atomic_habit", 899, 256);
+        tape.getData("lala", 499, 45);
+
+        cout << "\nDisplaying Book Details:\n";
+        book.display();
+
+        cout << "\nDisplaying Tape Details:\n";
+        tape.display();
+    }
+    catch (const exception& e) {
+        cout << "Exception caught: " << e.what() << endl;
+        cout << "Setting all data to zero values.\n";
+
+        Book book;
+        Tape tape;
+
+        book.display();
+        tape.display();
+    }
+
+    return 0;
 }
