@@ -1,93 +1,56 @@
 #include <iostream>
-#include <string>
-#include <math.h>
-
 using namespace std;
 
-class complex
-{
+class Complex {
 public:
-    double real, imag;
-    complex()
-    {
-        this->real = 0;
-        this->imag = 0;
-    }
-    complex(double real, double imag)
-    {
-        this->real = real;
-        this->imag = imag;
+    double real;
+    double imag;
+
+    Complex() : real(0), imag(0) {}
+
+    Complex(double r, double i) : real(r), imag(i) {}
+
+    Complex operator+(const Complex &other) const {
+        return Complex(real + other.real, imag + other.imag);
     }
 
-    complex operator+(const complex &other)
-    {
-        return complex(this->real + other.real, this->imag + other.imag);
+    Complex operator*(const Complex &other) const {
+        return Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
+                       
     }
 
-    complex operator-(const complex &other)
-    {
-        return complex(this->real - other.real, this->imag - other.imag);
+    void getData(double r, double i) {
+        real = r;
+        imag = i;
     }
 
-    complex operator*(const complex &other)
-    {
-        return complex(
-            (this->real * other.real) - (this->imag * other.imag),
-            (this->real * other.imag) + (this->imag * other.real));
-    }
-
-    complex operator/(const complex &other)
-    {
-        return complex(
-            ((this->real * other.real) + (this->imag * other.imag)) / (pow(other.real, 2) + pow(other.imag, 2)),
-            ((this->imag * other.real) - (this->real * other.imag)) / (pow(other.real, 2) + pow(other.imag, 2)));
-    }
-
-    friend ostream &operator<<(ostream &out, const complex &c)
-    {
-        if (c.imag >= 0)
-        {
-            out << c.real << "+" << c.imag << "i";
-        }
+    void display() const {
+        cout << real;
+        if (imag >= 0)
+            cout << " + " << imag << "i";
         else
-        {
-            out << c.real << "-" << -c.imag << "i";
-        }
-
-        return out;
-    }
-
-    friend istream &operator>>(istream &in, complex &c)
-    {
-        cout << "enter real part = ";
-        in >> c.real;
-        cout << "enter imaginary part = ";
-        in >> c.imag;
-
-        return in;
+            cout << " - " << -imag << "i";
+        cout << endl;
     }
 };
 
-int main()
-{
-    complex c1;
-    complex c2;
-    complex c3;
+int main() {
+    Complex c1, c2;
+    c1.getData(3, 4);
+    c2.getData(1, 2); 
 
-    cin >> c1;
-    cin >> c2;
+    Complex sum = c1 + c2;
+    Complex mul = c1 * c2;
 
-    c3 = c1 + c2;
-    cout << "Addition = " << c3 << endl;
+    cout << "First Complex Number: ";
+    c1.display();
+    cout << "Second Complex Number: ";
+    c2.display();
 
-    c3 = c1 - c2;
-    cout << "Substraction = " << c3 << endl;
-
-    c3 = c1 * c2;
-    cout << "Multiplication = " << c3 << endl;
-
-    c3 = c1 / c2;
-    cout << "Division = " << c3 << endl;
+    cout << "Sum: ";
+    sum.display();
+    cout << "Product: ";
+    mul.display();
 
     return 0;
 }
