@@ -8,79 +8,66 @@ protected:
     float price;
 
 public:
-    Publication() : title(""), price(0.0) {}
-
-    virtual void getData(const string& t, float p) {
-        title = t;
-        price = p;
+    void inputDetails() {
+        cout << "Enter title: ";
+        getline(cin, title);
+        cout << "Enter price: ";
+        cin >> price;
+        cin.ignore(); 
     }
 
-    virtual void display() const {
+    void displayDetails() const {
         cout << "Title: " << title << endl;
         cout << "Price: " << price << endl;
     }
 };
-
 class Book : public Publication {
 private:
     int pageCount;
 
 public:
-    Book() : pageCount(0) {}
-
-    void getData(const string& t, float p, int pc) {
-        Publication::getData(t, p);
-        pageCount = pc;
+    void inputDetails() {
+        Publication::inputDetails(); 
+        cout << "Enter number of pages: ";
+        cin >> pageCount;
+        cin.ignore(); 
     }
 
-    void display() const override {
-        Publication::display(); // Call base class method
-        cout << "Page Count: " << pageCount << endl;
+    void displayDetails() const {
+        Publication::displayDetails(); 
+        cout << "Number of Pages: " << pageCount << endl;
     }
 };
 
 class Tape : public Publication {
 private:
-    float playingTime;
+    float playTime;
 
 public:
-    Tape() : playingTime(0.0) {}
-
-    void getData(const string& t, float p, float pt) {
-        Publication::getData(t, p);
-        playingTime = pt;
+    void inputDetails() {
+        Publication::inputDetails();
+        cout << "Enter play time (in minutes): ";
+        cin >> playTime;
+        cin.ignore(); 
     }
 
-    void display() const override {
-        Publication::display(); // Call base class method
-        cout << "Playing Time: " << playingTime << " minutes" << endl;
+    void displayDetails() const {
+        Publication::displayDetails(); 
+        cout << "Play Time: " << playTime << " minutes" << endl;
     }
 };
-
 int main() {
-    try {
-        Book book;
-        Tape tape;
+    Book book;
+    Tape tape;
 
-        book.getData("atomic_habit", 899, 256);
-        tape.getData("lala", 499, 45);
+    cout << "Enter details for the book:" << endl;
+    book.inputDetails();
+    cout << "\nBook Details:" << endl;
+    book.displayDetails();
 
-        cout << "\nDisplaying Book Details:\n";
-        book.display();
-
-        cout << "\nDisplaying Tape Details:\n";
-        tape.display();
-    }
-    catch (const exception& e) {
-        cout << "Exception caught: " << e.what() << endl;
-        cout << "Setting all data to zero values.\n";
-
-        Book book;
-        Tape tape;
-
-        book.display();
-        tape.display();
-    }
-
+    cout << "\nEnter details for the tape:" << endl;
+    tape.inputDetails();
+    cout << "\nTape Details:" << endl;
+    tape.displayDetails();
     return 0;
 }
