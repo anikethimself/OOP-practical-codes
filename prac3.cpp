@@ -1,3 +1,5 @@
+//create a class publication that stores the title(string) and price(float) of publications.
+//write the program to instantiates the class book and tape, allows user to enter and display the data members
 #include <iostream>
 #include <string>
 using namespace std;
